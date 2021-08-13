@@ -1,5 +1,12 @@
 ## 网络连接模块
 
+#### 版本更新
+TrafficStats自动说明
+
+| 版本  | 更新说明                      |
+| ------- | ------------------------- |
+| 1.0.3  | 1.增加默认密码设置 <br>              |
+
 ##  1. 依赖项配置
 
 指定maven仓库地址
@@ -10,7 +17,7 @@ maven { url 'http://maven.shlsnetwork.com/nexus/content/repositories/releases/' 
 
 添加SDK依赖
 ```
-implementation 'com.android.socks:NetProxy:1.0.2'
+implementation 'com.android.socks:NetProxy:1.0.3'
 ```
 
 
@@ -26,8 +33,10 @@ implementation 'com.android.socks:NetProxy:1.0.2'
                             return FireBaseRemoteConfig.getString(key);
                         }
                     })
-                    //通知栏点击后需要跳转的activity
+                    //通知栏点击后需要跳转的activity。如果设置为空，不显示默认通知栏
                     .launchClass(MainActivity.class)
+                    //连接的默认密码
+                    .defaultPw("aaaxdddsffddd")
                     //显示日志开关
                     .showLog(BuildConfig.DEBUG)
                     .build());
