@@ -1,11 +1,11 @@
 ## 网络连接模块
 
 #### 版本更新
-TrafficStats自动说明
 
 | 版本  | 更新说明                      |
 | ------- | ------------------------- |
-| 1.0.3  | 1.增加默认密码设置 <br>              |
+| 1.0.4  | 1.修改节点列表获取接口，返回分组列表<br>2.服务器节点增加flag图标标识、type服务器类型标识          |
+| 1.0.3  | 1.增加默认密码设置            |
 
 ##  1. 依赖项配置
 
@@ -17,7 +17,7 @@ maven { url 'http://maven.shlsnetwork.com/nexus/content/repositories/releases/' 
 
 添加SDK依赖
 ```
-implementation 'com.android.socks:NetProxy:1.0.3'
+implementation 'com.android.socks:NetProxy:1.0.4'
 ```
 
 
@@ -26,37 +26,54 @@ implementation 'com.android.socks:NetProxy:1.0.3'
 
     NwProxy.init(appliction, new ProxyConfig.Builder()
                     //数据接口回调，用来获取节点信息
-                    //这边实现remote config的数据接口就行
+                    //必选参数，实现remote config的数据接口
                     .remoteCallback(new IRemoteCallback() {
                         @Override
                         public String getString(String key) {
                             return FireBaseRemoteConfig.getString(key);
                         }
                     })
-                    //通知栏点击后需要跳转的activity。如果设置为空，不显示默认通知栏
+                    //可选参数，通知栏点击后需要跳转的activity。如果设置为空，不显示默认通知栏
                     .launchClass(MainActivity.class)
-                    //连接的默认密码
-                    .defaultPw("aaaxdddsffddd")
-                    //显示日志开关
+                    //可选参数，连接的默认密码
+                    .defaultPw("")
+                    //可选参数，获取remote config节点配置的key值
+                    .dataKey("")
+                    //可选参数显示日志开关
                     .showLog(BuildConfig.DEBUG)
                     .build());
 
 ## 3. 接口调用
-#### 3.1 获取节点列表
+#### 3.1 获取节点分组列表
 
-    NwProxy.getNodeList(new INodeCallback() {
+    NwProxy.getGroupList(new IGroupCallback() {
         @Override
-        public void onResponse(List<ServerNode> list) {
-            //获得回调的节点列表            
+        public void onResponse(List<NodeGroup> list) {
+            for (NodeGroup nodeGroup : list) {
+                LogUtils.e(nodeGroup.toString());
+            }
         }
     });
 
-ServerNode相关字段说明
+NodeGroup字段说明
+
+| 字段名  | 数据类型         | 说明                           |
+| ------- | ---------------- | ------------------------------ |
+| groupId | String           | 分组id                         |
+| name    | String           | 分组名称                       |
+| flag    | String           | 分组标记，用来失败显示的图标等 |
+| order   | int              | 排序                           |
+| servers | List<ServerNode> | 该分组下的服务器节点列表       |
+
+ServerNode字段说明
 
 | 字段名 | 数据类型| 说明        |
 | ------ | ------- | -------------- |
-| id      | long| 节点ID             |
+| id      | long| 客户端本地生成的节点ID,用来设置连接节点的参数             |
+|serverId     | int| 服务器id,标识唯一的服务器值             |
 | name      | String| 节点名称             |
+| flag      | String| 节点标识，用来定义显示的图标等参数             |
+| type      | int |服务器类型，对应常量NodeType。<br>   FREE : 0,免费节点；<br>       VIP：1,vip专用节点 ；<br>VIP_AD：2，vip或者看广告之后，可以使用的节点            |
 | host      | String| 节点IP             |
 | port      | int| 端口号             |
 | order      | int| 排序顺序             |
