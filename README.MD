@@ -4,6 +4,7 @@
 
 | 版本  | 更新说明                      |
 | ------- | ------------------------- |
+| 1.0.6  | 1.更新libsslocal.so，去掉包名验证逻辑        |
 | 1.0.5  | 1.移除节点管理，不再返回节点数据<br>2.初始化增加连接方式、dns两个参数。defaultPw、dataKeyremoteCallback设为过期，不再使用<br>3.修改启动方式，改为传入host、端口、密码启动，不再支持传入id启动        |
 | 1.0.4  | 1.修改节点列表获取接口，返回分组列表<br>2.服务器节点增加flag图标标识、type服务器类型标识          |
 | 1.0.3  | 1.增加默认密码设置            |
@@ -18,7 +19,7 @@ maven { url 'http://maven.shlsnetwork.com/nexus/content/repositories/releases/' 
 
 添加SDK依赖
 ```
-implementation 'com.android.socks:NetProxy:1.0.5'
+implementation 'com.android.socks:NetProxy:1.0.6'
 ```
 
 
