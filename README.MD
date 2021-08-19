@@ -4,6 +4,7 @@
 
 | 版本  | 更新说明                      |
 | ------- | ------------------------- |
+| 1.0.7  | 1.增加上报事件统一前缀np_ <br>2.增加通知栏内容设置<br>3.移除多余的依赖项，及部分冗余代码       |
 | 1.0.6  | 1.更新libsslocal.so，去掉包名验证逻辑        |
 | 1.0.5  | 1.移除节点管理，不再返回节点数据<br>2.初始化增加连接方式、dns两个参数。defaultPw、dataKeyremoteCallback设为过期，不再使用<br>3.修改启动方式，改为传入host、端口、密码启动，不再支持传入id启动        |
 | 1.0.4  | 1.修改节点列表获取接口，返回分组列表<br>2.服务器节点增加flag图标标识、type服务器类型标识          |
@@ -19,7 +20,7 @@ maven { url 'http://maven.shlsnetwork.com/nexus/content/repositories/releases/' 
 
 添加SDK依赖
 ```
-implementation 'com.android.socks:NetProxy:1.0.6'
+implementation 'com.android.socks:NetProxy:1.0.7'
 ```
 
 
@@ -33,7 +34,7 @@ implementation 'com.android.socks:NetProxy:1.0.6'
          .connectMethod("chacha20-ietf")
          //可选参数，连接dns
          .remoteDns("dns.google")
-          //可选参数,显示日志开关
+          //可选参数,调试模式，会显示日志及调试模式下的设置，如通知栏显示节点IP信息等
          .showLog(BuildConfig.DEBUG)
          //已过期，不再使用（可选参数，连接的默认密码）
          .defaultPw("")
@@ -151,4 +152,16 @@ TrafficStats自动说明
 //返回结果为0时，表示节点不可用，或测速失败
 long speed = NwProxy.getNodeSpeed("1.1.1.1");
 ```
+
+#### 3.6 设置通知栏内容文字
+
+调用以下方法设置通知栏的内容，调用设置后，下一次更新通知栏生效
+
+初始化时，设置了 .showLog(true)，视作调试默认，会加上host+端口号
+
+```
+NwProxy.setNotifyText("Welcome to Use ^_^");
+```
+
+
 
